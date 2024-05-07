@@ -31,6 +31,5 @@ This project is the backend server for a massively multiplayer online role-playi
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/mmorpg-server.git
-   cd mmorpg-server
+   git clone https://github.com/CristianCiubancan/IuliCo
    ```
