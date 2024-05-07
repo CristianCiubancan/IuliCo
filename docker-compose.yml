@@ -8,6 +8,12 @@ services:
     container_name: iulico_game
     ports:
       - "5186:5186"
+    volumes:
+      - type: bind
+        source: ./logs/game
+        target: /app/logs
+        # Ensure the volume is readable and writable by the container
+        consistency: consistent
 
   account:
     build:
@@ -17,3 +23,9 @@ services:
     container_name: iulico_account
     ports:
       - "9958:9958"
+    volumes:
+      - type: bind
+        source: ./logs/account
+        target: /app/logs
+        # Ensure the volume is readable and writable by the container
+        consistency: consistent
