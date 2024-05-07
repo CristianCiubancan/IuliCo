@@ -205,7 +205,7 @@ settings.json
 *.jetbrains
 
 # logs
-*.log
+log_*.txt
 
 # Windows Settings
 AppData/
