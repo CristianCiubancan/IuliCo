@@ -30,7 +30,7 @@ namespace IuliCo.Core
                 FileName = Path.Combine(logPath, "log_" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"),
                 Layout = "${longdate} ${level:uppercase=true} ${message} ${exception}"
             };
-            var logconsole = new ConsoleTarget("logconsole")
+            var logconsole = new ColoredConsoleTarget("logconsole")
             {
                 Layout = "${longdate} ${level:uppercase=true} ${message} ${exception}"
             };

@@ -3,16 +3,16 @@ using System.Net.Sockets;
 using IuliCo.Core;
 using IuliCo.Core.Enums;
 
-namespace IuliCo.Game.Sockets
+namespace IuliCo.Account.Sockets
 {
-    class GameServer
+    class AccountServer
     {
         private int port;
         private Socket listener;
 
         // we will import our Logger class here
 
-        public GameServer(int port)
+        public AccountServer(int port)
         {
             this.port = port;
             listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -20,11 +20,11 @@ namespace IuliCo.Game.Sockets
 
         public async Task StartAsync()
         {
-            await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Debug, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Error, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Fatal, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Warn, $"Starting Game Server on port {port}");
+            await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Starting Account Server on port {port}");
+            await AsyncLogger.Instance.LogAsync(LogLevel.Debug, $"Starting Account Server on port {port}");
+            await AsyncLogger.Instance.LogAsync(LogLevel.Error, $"Starting Account Server on port {port}");
+            await AsyncLogger.Instance.LogAsync(LogLevel.Fatal, $"Starting Account Server on port {port}");
+            await AsyncLogger.Instance.LogAsync(LogLevel.Warn, $"Starting Account Server on port {port}");
             listener.Bind(new IPEndPoint(IPAddress.Any, port));
             listener.Listen(10); // Start listening for incoming connections
 

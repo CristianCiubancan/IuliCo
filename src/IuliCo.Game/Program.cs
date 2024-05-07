@@ -10,7 +10,7 @@ namespace IuliCo.Game
     {
         static async Task Main(string[] args)
         {
-            GameServer server = new GameServer(9958);
+            GameServer server = new GameServer(5186);
 
             await server.StartAsync();
         }

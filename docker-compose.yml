@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  game:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+      target: game-final
+    container_name: iulico_game
+    ports:
+      - "5186:5186"
+
+  account:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+      target: account-final
+    container_name: iulico_account
+    ports:
+      - "9958:9958"
