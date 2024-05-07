@@ -8,7 +8,6 @@ out/
 *.sln.docstates
 
 # Visual Studio Code
-.vscode/
 *.code-workspace
 
 # Rider
@@ -187,12 +186,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-
-# VS Code settings and tasks
-.vscode/
-tasks.json
-launch.json
-settings.json
 
 # Tye
 .tye/
