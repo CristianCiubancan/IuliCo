@@ -204,5 +204,8 @@ settings.json
 # JetBrains annotations
 *.jetbrains
 
+# logs
+*.log
+
 # Windows Settings
 AppData/
