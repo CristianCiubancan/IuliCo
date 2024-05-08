@@ -21,10 +21,7 @@ namespace IuliCo.Account.Sockets
         public async Task StartAsync()
         {
             await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Starting Account Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Debug, $"Starting Account Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Error, $"Starting Account Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Fatal, $"Starting Account Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Warn, $"Starting Account Server on port {port}");
+
             listener.Bind(new IPEndPoint(IPAddress.Any, port));
             listener.Listen(10); // Start listening for incoming connections
 

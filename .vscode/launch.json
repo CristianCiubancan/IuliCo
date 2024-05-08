@@ -9,7 +9,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/bin/net7.0/IuliCo.Account.dll",
+      "program": "${workspaceFolder}/src/bin/net8.0/IuliCo.Account.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/IuliCo.Account",
       "console": "externalTerminal",
@@ -20,14 +20,14 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/bin/net7.0/IuliCo.Game.dll",
+      "program": "${workspaceFolder}/src/bin/net8.0/IuliCo.Game.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/IuliCo.Game",
       "console": "externalTerminal",
       "stopAtEntry": false
     },
     {
-      "name": ".NET Core Attach",
+      "name": ".NET 8 Attach",
       "type": "coreclr",
       "request": "attach",
       "processId": "${command:pickProcess}"

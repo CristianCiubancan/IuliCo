@@ -21,10 +21,7 @@ namespace IuliCo.Game.Sockets
         public async Task StartAsync()
         {
             await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Debug, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Error, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Fatal, $"Starting Game Server on port {port}");
-            await AsyncLogger.Instance.LogAsync(LogLevel.Warn, $"Starting Game Server on port {port}");
+
             listener.Bind(new IPEndPoint(IPAddress.Any, port));
             listener.Listen(10); // Start listening for incoming connections
 

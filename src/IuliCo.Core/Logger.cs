@@ -34,6 +34,13 @@ namespace IuliCo.Core
             {
                 Layout = "${longdate} ${level:uppercase=true} ${message} ${exception}"
             };
+            // Define color mappings for each log level
+            logconsole.RowHighlightingRules.Add(new ConsoleRowHighlightingRule("level == LogLevel.Trace", ConsoleOutputColor.Gray, ConsoleOutputColor.NoChange));
+            logconsole.RowHighlightingRules.Add(new ConsoleRowHighlightingRule("level == LogLevel.Debug", ConsoleOutputColor.White, ConsoleOutputColor.NoChange));
+            logconsole.RowHighlightingRules.Add(new ConsoleRowHighlightingRule("level == LogLevel.Info", ConsoleOutputColor.DarkBlue, ConsoleOutputColor.NoChange));
+            logconsole.RowHighlightingRules.Add(new ConsoleRowHighlightingRule("level == LogLevel.Warn", ConsoleOutputColor.DarkYellow, ConsoleOutputColor.NoChange));
+            logconsole.RowHighlightingRules.Add(new ConsoleRowHighlightingRule("level == LogLevel.Error", ConsoleOutputColor.Magenta, ConsoleOutputColor.NoChange));
+            logconsole.RowHighlightingRules.Add(new ConsoleRowHighlightingRule("level == LogLevel.Fatal", ConsoleOutputColor.DarkMagenta, ConsoleOutputColor.NoChange));
 
             // Add rules for mapping loggers to targets            
             config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);

@@ -33,3 +33,5 @@ This project is the backend server for a massively multiplayer online role-playi
    ```bash
    git clone https://github.com/CristianCiubancan/IuliCo
    ```
+
+<!-- TODO: tell how we might need to create a db_data folder at our root to get the image going -->
