@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace IuliCo.Database.Migrations
+namespace IuliCo.Database.Migrations.Account
 {
     [DbContext(typeof(AccountContext))]
     partial class AccountContextModelSnapshot : ModelSnapshot

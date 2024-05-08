@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace IuliCo.Database.Migrations.Game
+namespace IuliCo.Database.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20240507230730_InitialAccountMigration")]
-    partial class InitialAccountMigration
+    [Migration("20240508012014_UpdatedSchema")]
+    partial class UpdatedSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace IuliCo.Database.Migrations.Game
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("Players");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,7 +10,7 @@ namespace IuliCo.Database
 {
     public class GameContext : DbContext
     {
-        public DbSet<Player> Games { get; set; }  // Ensure the DbSet name represents the entity correctly, might be 'Players'?
+        public DbSet<Player> Players { get; set; }  // Ensure the DbSet name represents the entity correctly, might be 'Players'?
 
         public GameContext(DbContextOptions<GameContext> options) : base(options)
         {

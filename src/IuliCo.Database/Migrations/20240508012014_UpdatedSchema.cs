@@ -2,16 +2,16 @@
 
 #nullable disable
 
-namespace IuliCo.Database.Migrations.Game
+namespace IuliCo.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialAccountMigration : Migration
+    public partial class UpdatedSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Games",
+                name: "Players",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,7 +22,7 @@ namespace IuliCo.Database.Migrations.Game
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Games", x => x.Id);
+                    table.PrimaryKey("PK_Players", x => x.Id);
                 });
         }
 
@@ -30,7 +30,7 @@ namespace IuliCo.Database.Migrations.Game
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Games");
+                name: "Players");
         }
     }
 }

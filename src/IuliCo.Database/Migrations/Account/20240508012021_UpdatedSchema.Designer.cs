@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace IuliCo.Database.Migrations
+namespace IuliCo.Database.Migrations.Account
 {
     [DbContext(typeof(AccountContext))]
-    [Migration("20240507234127_AutomaticMigration")]
-    partial class AutomaticMigration
+    [Migration("20240508012021_UpdatedSchema")]
+    partial class UpdatedSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

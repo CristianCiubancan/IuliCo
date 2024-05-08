@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace IuliCo.Database.Migrations
+namespace IuliCo.Database.Migrations.Account
 {
     /// <inheritdoc />
-    public partial class InitialAccountMigration : Migration
+    public partial class UpdatedSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

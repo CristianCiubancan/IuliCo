@@ -3,19 +3,16 @@ using IuliCo.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace IuliCo.Database.Migrations.Game
+namespace IuliCo.Database.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20240507234135_AutomaticMigration")]
-    partial class AutomaticMigration
+    partial class GameContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +41,7 @@ namespace IuliCo.Database.Migrations.Game
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("Players");
                 });
 #pragma warning restore 612, 618
         }
