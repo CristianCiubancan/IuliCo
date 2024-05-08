@@ -22,7 +22,7 @@ namespace IuliCo.Game
             }
 
             // Initialize and start the game server
-            GameServer server = new GameServer(5186);
+            GameServer server = new GameServer(5187);
             await server.StartAsync();
         }
     }

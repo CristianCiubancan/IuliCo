@@ -20,8 +20,10 @@ services:
       target: game-final
     container_name: iulico_game
     command: /bin/sh -c "dotnet ef database update -c GameContext && dotnet run"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
     ports:
-      - "5186:5186"
+      - "5187:5187"
     volumes:
       - type: bind
         source: ./logs/game
@@ -35,43 +37,12 @@ services:
       target: account-final
     container_name: iulico_account
     command: /bin/sh -c "dotnet ef database update -c GameContext && dotnet run"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
     ports:
-      - "9958:9958"
+      - "9959:9959"
     volumes:
       - type: bind
         source: ./logs/account
         target: /app/logs
         consistency: consistent
-
-
-# version: '3.8'
-# services:
-#   game:
-#     build:
-#       context: ./src
-#       dockerfile: Dockerfile
-#       target: game-final
-#     container_name: iulico_game
-#     ports:
-#       - "5186:5186"
-#     volumes:
-#       - type: bind
-#         source: ./logs/game
-#         target: /app/logs
-#         # Ensure the volume is readable and writable by the container
-#         consistency: consistent
-
-#   account:
-#     build:
-#       context: ./src
-#       dockerfile: Dockerfile
-#       target: account-final
-#     container_name: iulico_account
-#     ports:
-#       - "9958:9958"
-#     volumes:
-#       - type: bind
-#         source: ./logs/account
-#         target: /app/logs
-#         # Ensure the volume is readable and writable by the container
-#         consistency: consistent

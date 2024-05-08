@@ -20,7 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettings.json">
+    <None Update="appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.Local.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -28,4 +31,8 @@
   <ItemGroup>
     <ProjectReference Include="..\IuliCo.Core\IuliCo.Core.csproj" />
   </ItemGroup>
+
+    <PropertyGroup>
+    <OutputPath>../bin</OutputPath>
+  </PropertyGroup>
 </Project>

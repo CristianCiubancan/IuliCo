@@ -10,10 +10,9 @@ namespace IuliCo.Database
     {
         public GameContext CreateDbContext(string[] args)
         {
-            var basePath = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "../IuliCo.Database";
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Local";
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(basePath)
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{environment}.json", optional: false)
                 .AddEnvironmentVariables()
                 .Build();
 

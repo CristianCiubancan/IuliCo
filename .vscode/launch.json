@@ -36,6 +36,7 @@
   "compounds": [
     {
       "name": "Launch IuliCo",
+      // "configurations": ["Launch Account", "Launch Game"]
       "configurations": ["Launch Account", "Launch Game"]
     }
   ]
