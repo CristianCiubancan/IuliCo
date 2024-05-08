@@ -5,6 +5,12 @@ WORKDIR /src
 
 # Copy wait-for-it.sh into the build image
 COPY wait-for-it.sh /app/wait-for-it.sh
+# Install dos2unix and convert line endings
+RUN apt-get update && \
+    apt-get install -y dos2unix && \
+    dos2unix /app/wait-for-it.sh && \
+    apt-get remove -y dos2unix && \
+    apt-get clean
 RUN chmod +x /app/wait-for-it.sh
 
 # Restore and build IuliCo.Core
@@ -12,6 +18,7 @@ COPY ["IuliCo.Core/IuliCo.Core.csproj", "IuliCo.Core/"]
 RUN dotnet restore "IuliCo.Core/IuliCo.Core.csproj"
 COPY ["IuliCo.Core/", "IuliCo.Core/"]
 RUN dotnet build "IuliCo.Core/IuliCo.Core.csproj" -c Release -o /app/build
+
 
 # Assuming IuliCo.Database is a dependency for the games and accounts
 COPY ["IuliCo.Database/IuliCo.Database.csproj", "IuliCo.Database/"]
@@ -39,7 +46,7 @@ WORKDIR /app
 COPY --from=build /app/wait-for-it.sh .  
 # Copy wait-for-it.sh from the build stage
 COPY --from=build /app/publish/game .
-ENTRYPOINT ["./wait-for-it.sh", "db:1433", "--", "dotnet", "IuliCo.Game.dll"]
+ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "dotnet", "IuliCo.Game.dll"]
 
 # Final stage for the account service
 FROM mcr.microsoft.com/dotnet/runtime:8.0 AS account-final
@@ -47,4 +54,4 @@ WORKDIR /app
 COPY --from=build /app/wait-for-it.sh .  
 # Copy wait-for-it.sh from the build stage
 COPY --from=build /app/publish/account .
-ENTRYPOINT ["./wait-for-it.sh", "db:1433", "--", "dotnet", "IuliCo.Account.dll"]
+ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "dotnet", "IuliCo.Account.dll"]

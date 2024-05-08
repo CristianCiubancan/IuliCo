@@ -24,7 +24,10 @@ namespace IuliCo.Database
             }
 
             var builder = new DbContextOptionsBuilder<GameContext>();
-            builder.UseSqlServer(connectionString);
+            builder.UseMySql(
+                    connectionString,
+                    new MySqlServerVersion(new Version(8, 0, 21))
+                );
             AsyncLogger.Instance.LogAsync(LogLevel.Info, "GameContext created.").ConfigureAwait(false);
             return new GameContext(builder.Options);
         }

@@ -3,7 +3,8 @@ using IuliCo.Core.Enums;
 using IuliCo.Database.Entities.Account;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using Pomelo.EntityFrameworkCore.MySql;
+
 
 namespace IuliCo.Database
 {
@@ -33,7 +34,10 @@ namespace IuliCo.Database
                     throw new InvalidOperationException("No connection string configured.");
                 }
                 AsyncLogger.Instance.LogAsync(LogLevel.Info, "AccountContext created.").ConfigureAwait(false);
-                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.UseMySql(
+                    connectionString,
+                    new MySqlServerVersion(new Version(8, 0, 21))
+                );
             }
         }
 

@@ -24,7 +24,10 @@ namespace IuliCo.Database
             }
 
             var builder = new DbContextOptionsBuilder<AccountContext>();
-            builder.UseSqlServer(connectionString);
+            builder.UseMySql(
+                connectionString,
+                new MySqlServerVersion(new Version(8, 0, 21))
+            );
             AsyncLogger.Instance.LogAsync(Core.Enums.LogLevel.Info, "AccountContext created.").ConfigureAwait(false);
             return new AccountContext(builder.Options);
         }

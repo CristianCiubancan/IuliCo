@@ -1,29 +1,35 @@
 version: '3.8'
 services:
   db:
-    image: mcr.microsoft.com/mssql/server
+    image: mysql:latest
     environment:
-      SA_PASSWORD: "REPLACE_WITH_YOUR_SECURE_PASSWORD_6699"
-      ACCEPT_EULA: "Y"
+      MYSQL_ROOT_PASSWORD: 'REPLACE_WITH_YOUR_SECURE_PASSWORD_6699'
     ports:
-      - "1433:1433"
+      - '3306:3306'
     volumes:
       - type: bind
         source: ./db_data
-        target: /var/opt/mssql
+        target: /var/lib/mysql
         consistency: consistent
-
   game:
     build:
       context: ./src
       dockerfile: Dockerfile
       target: game-final
     container_name: iulico_game
-    command: ["/app/wait-for-it.sh", "db:1433", "--", "/bin/sh", "-c", "dotnet ef database update -c GameContext && dotnet run"]
+    command:
+      [
+        '/app/wait-for-it.sh',
+        'db:3306',
+        '--',
+        '/bin/sh',
+        '-c',
+        'dotnet ef database update -c GameContext && dotnet run',
+      ]
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: 'Production'
     ports:
-      - "5187:5187"
+      - '5187:5187'
     volumes:
       - type: bind
         source: ./logs/game
@@ -36,11 +42,19 @@ services:
       dockerfile: Dockerfile
       target: account-final
     container_name: iulico_account
-    command: ["/app/wait-for-it.sh", "db:1433", "--", "/bin/sh", "-c", "dotnet ef database update -c GameContext && dotnet run"]
+    command:
+      [
+        '/app/wait-for-it.sh',
+        'db:3306',
+        '--',
+        '/bin/sh',
+        '-c',
+        'dotnet ef database update -c GameContext && dotnet run',
+      ]
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: 'Production'
     ports:
-      - "9959:9959"
+      - '9959:9959'
     volumes:
       - type: bind
         source: ./logs/account

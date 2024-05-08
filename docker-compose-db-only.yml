@@ -1,15 +1,13 @@
 version: '3.8'
 services:
   db:
-    image: mcr.microsoft.com/mssql/server
+    image: mysql:latest
     environment:
-      SA_PASSWORD: "REPLACE_WITH_YOUR_SECURE_PASSWORD_6699"
-      ACCEPT_EULA: "Y"
+      MYSQL_ROOT_PASSWORD: 'REPLACE_WITH_YOUR_SECURE_PASSWORD_6699'
     ports:
-      - "1433:1433"
+      - '3306:3306'
     volumes:
       - type: bind
         source: ./db_data
-        target: /var/opt/mssql
+        target: /var/lib/mysql
         consistency: consistent
-
