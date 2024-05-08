@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
       target: game-final
     container_name: iulico_game
-    command: /bin/sh -c "dotnet ef database update -c GameContext && dotnet run"
+    command: ["/app/wait-for-it.sh", "db:1433", "--", "/bin/sh", "-c", "dotnet ef database update -c GameContext && dotnet run"]
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
     ports:
@@ -36,7 +36,7 @@ services:
       dockerfile: Dockerfile
       target: account-final
     container_name: iulico_account
-    command: /bin/sh -c "dotnet ef database update -c GameContext && dotnet run"
+    command: ["/app/wait-for-it.sh", "db:1433", "--", "/bin/sh", "-c", "dotnet ef database update -c GameContext && dotnet run"]
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
     ports:

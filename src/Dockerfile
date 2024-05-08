@@ -3,6 +3,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /src
 
+# Copy wait-for-it.sh into the build image
+COPY wait-for-it.sh /app/wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
+
 # Restore and build IuliCo.Core
 COPY ["IuliCo.Core/IuliCo.Core.csproj", "IuliCo.Core/"]
 RUN dotnet restore "IuliCo.Core/IuliCo.Core.csproj"
@@ -32,11 +36,15 @@ RUN dotnet publish "IuliCo.Account/IuliCo.Account.csproj" -c Release -o /app/pub
 # Final stage for the game
 FROM mcr.microsoft.com/dotnet/runtime:8.0 AS game-final
 WORKDIR /app
+COPY --from=build /app/wait-for-it.sh .  
+# Copy wait-for-it.sh from the build stage
 COPY --from=build /app/publish/game .
-ENTRYPOINT ["dotnet", "IuliCo.Game.dll"]
+ENTRYPOINT ["./wait-for-it.sh", "db:1433", "--", "dotnet", "IuliCo.Game.dll"]
 
 # Final stage for the account service
 FROM mcr.microsoft.com/dotnet/runtime:8.0 AS account-final
 WORKDIR /app
+COPY --from=build /app/wait-for-it.sh .  
+# Copy wait-for-it.sh from the build stage
 COPY --from=build /app/publish/account .
-ENTRYPOINT ["dotnet", "IuliCo.Account.dll"]
+ENTRYPOINT ["./wait-for-it.sh", "db:1433", "--", "dotnet", "IuliCo.Account.dll"]
