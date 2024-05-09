@@ -1,5 +1,5 @@
 ﻿
-namespace IuliCo.Game.Cryptography
+namespace IuliCo.Game.Game.Cryptography
 {
     public class BigInteger
     {

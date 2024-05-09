@@ -6,7 +6,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Runtime.CompilerServices;
 
-namespace IuliCo.Game.Cryptography
+namespace IuliCo.Game.Game.Cryptography
 {
     public unsafe sealed class TigerHashAlgorithm
     {

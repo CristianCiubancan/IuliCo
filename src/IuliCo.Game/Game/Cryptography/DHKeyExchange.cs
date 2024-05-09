@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace IuliCo.Game.Cryptography
+namespace IuliCo.Game.Game.Cryptography
 {
     public unsafe static class DHKeyExchange
     {

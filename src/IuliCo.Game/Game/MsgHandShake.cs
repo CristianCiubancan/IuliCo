@@ -1,4 +1,4 @@
-﻿namespace IuliCo.Game
+﻿namespace IuliCo.Game.Game
 {
     public static class MsgHandShake
     {

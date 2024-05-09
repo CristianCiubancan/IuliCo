@@ -18,7 +18,7 @@
 // *
 // * ************************************************************
 
-namespace IuliCo.Game.Cryptography
+namespace IuliCo.Game.Game.Cryptography
 {
     internal class Pack
     {
