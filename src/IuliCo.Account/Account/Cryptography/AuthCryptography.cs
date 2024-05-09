@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AccountServer.Network.Cryptography
+﻿namespace IuliCo.Account.Account.Cryptography
 {
     public unsafe class AuthCryptography
     {
