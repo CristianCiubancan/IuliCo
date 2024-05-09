@@ -7,29 +7,27 @@ namespace IuliCo.Account.Sockets
 {
     class AccountServer
     {
-        private int port;
-        private Socket listener;
-
-        // we will import our Logger class here
+        private int _port;
+        private Socket _listener;
 
         public AccountServer(int port)
         {
-            this.port = port;
-            listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _port = port;
+            _listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
         public async Task StartAsync()
         {
-            await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Starting Account Server on port {port}");
-
-            listener.Bind(new IPEndPoint(IPAddress.Any, port));
-            listener.Listen(10); // Start listening for incoming connections
+            // Logging:
+            await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Starting server on port {_port}");
+            _listener.Bind(new IPEndPoint(IPAddress.Any, _port));
+            _listener.Listen(10);
 
             while (true)
             {
-                var clientSocket = await listener.AcceptAsync(); // Asynchronous accept
+                var clientSocket = await _listener.AcceptAsync();
                 await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Client connected: {clientSocket.RemoteEndPoint}");
-                _ = HandleClientAsync(clientSocket); // Handle client asynchronously
+                _ = HandleClientAsync(clientSocket);
             }
         }
 
@@ -37,18 +35,45 @@ namespace IuliCo.Account.Sockets
         {
             try
             {
-                // Client interaction (asynchronous handling of receiving/sending data)
+                using (var stream = new NetworkStream(client))
+                {
+                    while (client.Connected)
+                    {
+                        byte[] buffer = new byte[2048]; // Adjust buffer size as needed
+                        int bytesReceived = await stream.ReadAsync(buffer, 0, buffer.Length);
+                        if (bytesReceived == 0)
+                        {
+                            await AsyncLogger.Instance.LogAsync(LogLevel.Info, $"Client disconnected: {client.RemoteEndPoint}");
+                            break;
+                        }
+
+                        // Process the received data (decrypt, process, potentially encrypt and send a response)
+                        byte[] processedData = await ProcessDataAsync(buffer, bytesReceived);
+
+                        if (processedData != null)
+                        {
+                            await stream.WriteAsync(processedData, 0, processedData.Length);
+                        }
+                    }
+                }
             }
-            catch (SocketException ex)
+            catch (Exception ex)
             {
-                // Log socket-specific errors
-                await AsyncLogger.Instance.LogAsync(LogLevel.Error, ex.Message);
-            }
-            finally
-            {
-                client.Close();
+                // _logger?.LogError(ex, "Error handling client");
+                await AsyncLogger.Instance.LogAsync(LogLevel.Error, $"Error handling client: {ex.Message}");
             }
         }
 
+        // Implement the ProcessDataAsync method for handling encryption/decryption and message processing
+        private async Task<byte[]> ProcessDataAsync(byte[] receivedData, int bytesReceived)
+        {
+            // 1. Perform decryption (using your adapted `AuthCryptography` class)
+            // 2. Deserialize and process the incoming message
+            // 3. Prepare a response message (if necessary)
+            // 4. Serialize the response
+            // 5. Encrypt the response
+            // 6. Return the encrypted response byte array
+            return new byte[0];
+        }
     }
 }
