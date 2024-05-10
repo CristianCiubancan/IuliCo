@@ -23,7 +23,8 @@ internal sealed class ParamSubscription<T> : Subscription
             if (_param != null)
             {
                 this._TimerRule._Action!(this._param, (int)DateTime.Now.Ticks);
-                AsyncLogger.Instance.LogAsync(LogLevel.Info, this._param.ToString()!).ConfigureAwait(false);
+                if (this._param != null && this._TimerRule._Active)
+                    AsyncLogger.Instance.LogAsync(LogLevel.Info, this._param.ToString() ?? "No param was found for timer rule").ConfigureAwait(false);
             }
             if (this._TimerRule != null)
             {

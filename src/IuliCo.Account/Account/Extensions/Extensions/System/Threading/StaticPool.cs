@@ -99,7 +99,7 @@
                         currentThread.Priority = Subscription.GetThreadPriority();
                         try
                         {
-                            Subscription.Invoke();
+                            Subscription?.Invoke();
                         }
                         catch (Exception exception)
                         {

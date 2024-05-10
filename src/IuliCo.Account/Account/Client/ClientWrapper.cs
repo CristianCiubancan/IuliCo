@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using IuliCo.Account.Sockets;
+using IuliCo.Core;
+using IuliCo.Core.Enums;
 using IuliCo.Core.Structs;
 
 namespace IuliCo.Account.Account.Client
@@ -19,7 +21,7 @@ namespace IuliCo.Account.Account.Client
         public Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         public object Connector = new object();
         public AccountServer Server = new AccountServer();
-        public string IP = "127.0.0.1";
+        public string IP = "0.0.0.0";
         public bool Alive;
         public bool OverrideTiming;
         private IDisposable[] _TimerSubscriptions = new IDisposable[3];
@@ -62,9 +64,13 @@ namespace IuliCo.Account.Account.Client
                 Alive = false;
                 for (int i = 0; i < _TimerSubscriptions.Length; i++)
                     _TimerSubscriptions[i].Dispose();
-                Socket.Shutdown(SocketShutdown.Both);
-                Socket.Close();
-                Socket.Dispose();
+
+                if (Socket != null && Socket.Connected)
+                {
+                    Socket.Shutdown(SocketShutdown.Both);
+                    Socket.Close();
+                    Socket.Dispose();
+                }
             }
         }
         public static void TryReview(ClientWrapper wrapper)
@@ -160,10 +166,12 @@ namespace IuliCo.Account.Account.Client
                 {
                     wrapper.Socket.Send(buffer);
                 }
-                catch
+                catch (SocketException e)
                 {
+                    AsyncLogger.Instance.LogAsync(LogLevel.Error, e.ToString()).ConfigureAwait(false);
                     wrapper.Server.InvokeDisconnect(wrapper);
                 }
+
             }
         }
         private static void endSend(IAsyncResult ar)
