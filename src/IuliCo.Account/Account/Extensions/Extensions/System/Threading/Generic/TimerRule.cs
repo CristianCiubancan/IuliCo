@@ -5,7 +5,7 @@
 
     public class TimerRule<T>
     {
-        internal Action<T, int> _Action;
+        internal Action<T, int>? _Action;
         internal bool _Active;
         internal int _period;
         internal ThreadPriority _ThreadPriority;

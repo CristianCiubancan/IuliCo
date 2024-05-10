@@ -8,21 +8,21 @@
     {
         internal volatile bool _Active;
         internal volatile bool Idle;
-        internal SafeDictionary<int, Subscription> _Subscriptions;
+        internal SafeDictionary<int, Subscription>? _Subscriptions;
         internal int _Threads;
         internal int _IdleThreads;
         internal int _InUseThreads;
         internal int _minimumPoolSize;
         internal int _maximumPoolSize;
-        internal List<Thread> _Thread;
+        internal List<Thread>? _Thread;
         internal object _TresholdLock;
         internal object _SubscriptionsLock;
         protected internal Thread propagationThread;
-        internal Queue<Subscription> _Treshold;
+        internal Queue<Subscription>? _Treshold;
         public const int SleepTime = 1;
 
         public StandalonePool(int minimumPoolSize = 6, int maximumPoolSize = 0x20)
-        {          
+        {
             this.Idle = false;
             this._SubscriptionsLock = new object();
             this._TresholdLock = new object();
@@ -31,13 +31,14 @@
             this._Thread = new List<Thread>();
             this._minimumPoolSize = minimumPoolSize;
             this._maximumPoolSize = maximumPoolSize;
+            this.propagationThread = new Thread(new ThreadStart(this.propagation));
         }
 
         public void Clear()
         {
             lock (this._TresholdLock)
             {
-                this._Treshold.Clear();
+                this._Treshold?.Clear();
             }
         }
 
@@ -53,7 +54,7 @@
                 Interlocked.Increment(ref this._Threads);
                 Interlocked.Increment(ref this._IdleThreads);
                 Thread item = new Thread(new ThreadStart(this.Work));
-                this._Thread.Add(item);
+                this._Thread?.Add(item);
                 item.Priority = ThreadPriority.Normal;
                 item.IsBackground = false;
                 item.Start();
@@ -62,7 +63,7 @@
 
         internal void Reset_Thread()
         {
-            if (!this.Idle)
+            if (!this.Idle && _Thread != null)
             {
                 foreach (Thread thread in this._Thread)
                 {
@@ -79,7 +80,7 @@
 
         internal void Abort(bool Abort)
         {
-            if (!this.Idle)
+            if (!this.Idle && _Thread != null)
             {
                 this.Idle = true;
                 this._Active = false;
@@ -90,7 +91,7 @@
                         //thread.Abort();
                     }
                 }
-                this._Subscriptions.Clear();
+                this._Subscriptions?.Clear();
                 this._Subscriptions = null;
                 this._Treshold = null;
                 this._Thread = null;
@@ -102,11 +103,11 @@
             Thread currentThread = Thread.CurrentThread;
             while (this._Active && !currentThread.IsBackground)
             {
-                Subscription class2;
+                Subscription? class2;
                 Thread.Sleep(1);
                 if (this.Dequeue(out class2))
                 {
-                    if (class2._Active)
+                    if (class2 != null && class2._Active)
                     {
                         Interlocked.Decrement(ref this._IdleThreads);
                         Interlocked.Increment(ref this._InUseThreads);
@@ -129,22 +130,24 @@
                     }
                     else
                     {
-                        this.Remove(class2.GetHashCode());
+                        if (class2 != null)
+                            this.Remove(class2.GetHashCode());
                     }
                 }
             }
             Interlocked.Decrement(ref this._IdleThreads);
         }
 
-        internal bool Dequeue(out Subscription Subscription)
+        internal bool Dequeue(out Subscription? Subscription)
         {
             Subscription = null;
             lock (this._TresholdLock)
             {
-                if (this._Treshold.Count != 0)
+                if (this._Treshold?.Count != 0)
                 {
-                    Subscription class2 = this._Treshold.Dequeue();
-                    Subscription = class2;
+                    Subscription? class2 = this._Treshold?.Dequeue();
+                    if (class2 != null)
+                        Subscription = class2;
                 }
             }
             return (Subscription != null);
@@ -154,7 +157,7 @@
         {
             lock (this._SubscriptionsLock)
             {
-                this._Subscriptions.Remove(key);
+                this._Subscriptions?.Remove(key);
             }
         }
 
@@ -162,7 +165,7 @@
         {
             int num = this._InUseThreads;
             int num2 = this._Threads;
-            if (((num == num2) || ((this._Treshold.Count / 10) >= num2)) && (num2 < this._maximumPoolSize))
+            if (((num == num2) || ((this._Treshold?.Count / 10) >= num2)) && (num2 < this._maximumPoolSize))
             {
                 this.Start();
             }
@@ -180,9 +183,12 @@
                 Queue<int> queue2 = new Queue<int>();
                 lock (this._SubscriptionsLock)
                 {
-                    foreach (Subscription class2 in this._Subscriptions.Values)
+                    if (this._Subscriptions == null)
+                        return;
+
+                    foreach (Subscription? class2 in this._Subscriptions.Values)
                     {
-                        if (class2._Active)
+                        if (class2!._Active)
                         {
                             if (!class2.running && class2.method_0())
                             {
@@ -206,7 +212,7 @@
                     {
                         while (queue.Count != 0)
                         {
-                            this._Treshold.Enqueue(queue.Dequeue());
+                            this._Treshold?.Enqueue(queue.Dequeue());
                         }
                     }
                 }
@@ -229,7 +235,7 @@
 
         public IDisposable Subscribe(TimerRule instruction)
         {
-            Subscription Subscription = null;
+            Subscription? Subscription = null;
             lock (this._SubscriptionsLock)
             {
                 Subscription = new LazySubscription(instruction);
@@ -237,14 +243,15 @@
                 {
                     Subscription.AddMilliseconds(instruction._period);
                 }
-                this._Subscriptions[Subscription.GetHashCode()] = Subscription;
+                if (_Subscriptions != null)
+                    this._Subscriptions[Subscription.GetHashCode()] = Subscription;
             }
             return Subscription;
         }
 
         public IDisposable Subscribe<T>(TimerRule<T> instruction, T param)
         {
-            Subscription Subscription = null;
+            Subscription? Subscription = null;
             lock (this._SubscriptionsLock)
             {
                 Subscription = new ParamSubscription<T>(instruction, param);
@@ -252,7 +259,8 @@
                 {
                     Subscription.AddMilliseconds(instruction._period);
                 }
-                this._Subscriptions[Subscription.GetHashCode()] = Subscription;
+                if (_Subscriptions != null)
+                    this._Subscriptions[Subscription.GetHashCode()] = Subscription;
             }
             return Subscription;
         }
@@ -264,6 +272,12 @@
 
         public override string ToString()
         {
+            if (this._Subscriptions == null)
+                return "Disposed";
+
+            if (_Treshold == null)
+                return "Disposed";
+
             int count = this._Subscriptions.Count;
             int num = this._Treshold.Count;
             return string.Format("{0} waiting exec, {1} subscriptions, {2} threads: {3} in use, {4} idle", new object[] { num, count, this._Threads, this._InUseThreads, this._IdleThreads });
@@ -297,7 +311,7 @@
         {
             get
             {
-                return this._Treshold.Count;
+                return this._Treshold?.Count ?? 0;
             }
         }
     }

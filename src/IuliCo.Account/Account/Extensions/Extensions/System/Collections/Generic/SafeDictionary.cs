@@ -3,23 +3,23 @@
     using System;
     using System.Reflection;
 
-    public class SafeDictionary<T, T2> : Dictionary<T, T2>
+    // Add 'notnull' constraint to ensure 'T' is always non-nullable
+    public class SafeDictionary<T, T2> : Dictionary<T, T2?> where T : notnull
     {
         public SafeDictionary() : base()
         {
-          
         }
-        public SafeDictionary(int nulledNumber)
-            : base(nulledNumber)
-        {          
+
+        public SafeDictionary(int capacity) : base(capacity)
+        {
         }
 
         public new void Add(T key, T2 value)
         {
-            base[key] = value;
+            base[key] = value;  // Simplifies the addition; behaves like an upsert
         }
 
-        public new T2 this[T key]
+        public new T2? this[T key]  // Explicitly mark the return type as nullable
         {
             get
             {
@@ -27,7 +27,7 @@
                 {
                     return base[key];
                 }
-                return default(T2);
+                return default;  // Simplified from 'default(T2)' to 'default'
             }
             set
             {
@@ -36,4 +36,3 @@
         }
     }
 }
-

@@ -6,7 +6,7 @@ namespace IuliCo.Account
 {
     public struct Time32
     {
-        public static Stopwatch Clock;
+        public static Stopwatch Clock = new();
 
         public static bool isCreate = false;
 
@@ -131,7 +131,7 @@ namespace IuliCo.Account
             return this.AddHours(Amount * 24);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             bool result;
             if (obj is Time32)

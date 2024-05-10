@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace System
 {
-    public class SafeDictionary1<T1, T2>
+    public class SafeDictionary1<T1, T2> where T1 : notnull where T2 : notnull
     {
         private SafeDictionary<T1, T2> DictBase;
 
@@ -65,7 +61,7 @@ namespace System
             DictBase.Clear();
         }
 
-        public T2 this[T1 key]
+        public T2? this[T1 key]
         {
             get
             {
@@ -85,7 +81,7 @@ namespace System
             }
         }
 
-        public bool TryGetValue(T1 key, out T2 value)
+        public bool TryGetValue(T1 key, out T2? value)
         {
             return DictBase.TryGetValue(key, out value);
         }

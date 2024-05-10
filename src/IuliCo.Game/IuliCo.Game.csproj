@@ -15,6 +15,7 @@
   
   <PropertyGroup>
     <OutputPath>../bin</OutputPath>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>

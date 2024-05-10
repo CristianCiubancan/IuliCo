@@ -1,14 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
-using System.Security;
-using System.Security.Permissions;
-using System.Threading;
+﻿
 public class MyList<T>
 {
     private T[] objects = new T[0];
@@ -27,16 +17,16 @@ public class MyList<T>
         }
     }
 
-    public T this[int key]
+    public T? this[int key]
     {
         get
         {
-            T result;
+            T? result;
             try
             {
                 if (this.GetValues().Length <= key)
                 {
-                    result = default(T);
+                    result = default(T?);
                     return result;
                 }
                 result = this.GetValues()[key];
@@ -46,15 +36,15 @@ public class MyList<T>
             {
                 Console.WriteLine(ex.ToString());
                 Console.WriteLine(string.Concat(new object[]
-					{
-						key,
-						" ",
-						this.objects.Length,
-						" ",
-						this.GetValues().Length
-					}));
+                    {
+                        key,
+                        " ",
+                        this.objects.Length,
+                        " ",
+                        this.GetValues().Length
+                    }));
             }
-            result = default(T);
+            result = default;
             return result;
         }
     }
