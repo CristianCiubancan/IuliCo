@@ -13,7 +13,8 @@
       "args": [],
       "cwd": "${workspaceFolder}/src/IuliCo.Account",
       "console": "externalTerminal",
-      "stopAtEntry": false
+      "stopAtEntry": false,
+      "justMyCode": false
     },
     {
       "name": "Launch Game",
@@ -24,7 +25,8 @@
       "args": [],
       "cwd": "${workspaceFolder}/src/IuliCo.Game",
       "console": "externalTerminal",
-      "stopAtEntry": false
+      "stopAtEntry": false,
+      "justMyCode": false
     },
     {
       "name": ".NET 8 Attach",
